@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>العيادة الزراعية الذكية - 3D Axis</title>
+    <style>
+        :root {
+            --primary-color: #2e7d32;
+            --accent-color: #81c784;
+            --bg-color: #f1f8e9;
+            --text-color: #1b5e20;
+            --card-bg: #ffffff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .container {
+            max-width: 650px;
+            width: 100%;
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        .header-tools {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .lang-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 6px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            margin: 10px 0 5px 0;
+            font-size: 24px;
+        }
+
+        .avatar-container {
+            width: 110px;
+            height: 110px;
+            margin: 15px auto;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-color), var(--primary-color));
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        .avatar-img {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background-color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 45px;
+        }
+
+        .speaking {
+            animation: pulse 0.9s infinite alternate;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(46, 125, 50, 0.7); }
+            100% { transform: scale(1.05); box-shadow: 0 0 0 12px rgba(46, 125, 50, 0); }
+        }
+
+        .bubble {
+            background: #e8f5e9;
+            padding: 12px 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-weight: 500;
+            border-right: 5px solid var(--primary-color);
+            text-align: justify;
+        }
+
+        .form-group {
+            text-align: right;
+            margin-bottom: 15px;
+        }
+
+        body.ltr .form-group {
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+
+        select, input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 2px solid var(--accent-color);
+            font-size: 15px;
+            color: var(--text-color);
+            background-color: #fff;
+            box-sizing: border-box;
+            outline: none;
+        }
+
+        .search-row {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .mic-btn {
+            background-color: #c62828;
+            color: white;
+            border: none;
+            width: 50px;
+            height: 48px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .mic-btn.listening {
+            background-color: #ff1744;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0.6; }
+        }
+
+        .submit-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 15px;
+            white-space: nowrap;
+        }
+
+        .result-box {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 10px;
+            background: #fff;
+            border: 1px solid #c8e6c9;
+            display: none;
+            text-align: right;
+        }
+
+        body.ltr .result-box {
+            text-align: left;
+        }
+
+        .result-title {
+            font-weight: bold;
+            color: #c62828;
+            font-size: 17px;
+            margin-bottom: 8px;
+        }
+
+        .treatment-title {
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-top: 12px;
+            margin-bottom: 8px;
+        }
+
+        .audio-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header-tools">
+        <button class="lang-btn" onclick="toggleLanguage()" id="langBtn">English</button>
+        <span style="font-size: 12px; font-weight: bold; color: #558b2f;">3D Axis Platform</span>
+    </div>
+
+    <h1 id="mainTitle">الخبير الزراعي الافتراضي</h1>
+    
+    <div class="avatar-container" id="avatarContainer">
+        <div class="avatar-img">👨‍🌾</div>
+    </div>
+
+    <div class="bubble" id="welcomeSpeech">
+        مرحباً بك يا مزارعنا القدير. اختر نوع النبات أو المحصول، أو تحدث معي مباشرة لتشخيص الأعراض.
+    </div>
+
+    <!-- اختيار نوع الشجرة/النبات (يتم تعبئتها ديناميكياً لتترجم تلقائياً) -->
+    <div class="form-group">
+        <label id="lblTree">1. اختر نوع الشجرة أو المحصول:</label>
+        <select id="treeSelect" onchange="updateSymptomsDropdown()">
+            <!-- يتم التعبئة عبر السكريبت -->
+        </select>
+    </div>
+
+    <!-- اختيار العَرَض -->
+    <div class="form-group">
+        <label id="lblSymptom">2. ماذا تلاحظ على الأوراق أو الثمار؟</label>
+        <select id="symptomSelect" onchange="analyzeByDropdown()">
+            <!-- يتم التعبئة عبر السكريبت -->
+        </select>
+    </div>
+
+    <!-- البحث الصوتي والكتابي -->
+    <div class="form-group">
+        <label id="lblSearch">أو تحدث/اكتب العَرَض مباشرة للبحث الذكي:</label>
+        <div class="search-row">
+            <button class="mic-btn" id="micBtn" onclick="startVoiceRecognition()">🎙️</button>
+            <input type="text" id="searchInput" placeholder="مثال: بقع بنية، اصفرار الأوراق...">
+            <button class="submit-btn" id="submitBtn" onclick="analyzeByText()">فحص العَرَض 🔍</button>
+        </div>
+    </div>
+
+    <!-- صندوق النتائج -->
+    <div class="result-box" id="resultBox">
+        <div class="result-title" id="diagnosisTitle"></div>
+        <div id="diagnosisDesc"></div>
+        <div class="treatment-title" id="lblTreatmentTitle">💡 الحل والعلاج المقترح:</div>
+        <div id="treatmentDesc"></div>
+        
+        <button class="audio-btn" onclick="speakResult()" id="btnListen">🔊 استمع إلى التشخيص</button>
+    </div>
+</div>
+
+<script>
+    let currentLang = 'ar';
+    
+    const uiStrings = {
+        ar: {
+            title: "الخبير الزراعي الافتراضي",
+            welcome: "مرحباً بك يا مزارعنا القدير. اختر نوع النبات أو المحصول، أو تحدث معي مباشرة لتشخيص الأعراض.",
+            lblTree: "1. اختر نوع الشجرة أو المحصول:",
+            lblSymptom: "2. ماذا تلاحظ على الأوراق أو الثمار؟",
+            lblSearch: "أو تحدث/اكتب العَرَض مباشرة للبحث الذكي:",
+            placeholder: "مثال: بقع بنية، اصفرار الأوراق...",
+            treatmentTitle: "💡 الحل والعلاج المقترح:",
+            btnListen: "🔊 استمع إلى التشخيص بصوت الأفتار",
+            selectOpt: "-- اختر العَرَض المشاهد --",
+            submitBtn: "فحص العَرَض 🔍",
+            notFound: "عذراً، لم أستطع العثور على تشخيص دقيق لهذا العَرَض في هذا المحصول. يرجى تجربة كلمات أخرى."
+        },
+        en: {
+            title: "Virtual Agricultural Expert",
+            welcome: "Welcome, dear farmer. Select the plant or crop type, or talk to me directly to diagnose the symptoms.",
+            lblTree: "1. Select Tree or Crop Type:",
+            lblSymptom: "2. What do you notice on the leaves or fruits?",
+            lblSearch: "Or speak/type the symptom directly for smart search:",
+            placeholder: "e.g., brown spots, yellow leaves...",
+            treatmentTitle: "💡 Suggested Solution & Treatment:",
+            btnListen: "🔊 Listen to the diagnosis from Avatar",
+            selectOpt: "-- Select Observed Symptom --",
+            submitBtn: "Check Symptom 🔍",
+            notFound: "Sorry, I couldn't find an exact diagnosis for this symptom in this crop. Please try other keywords."
+        }
+    };
+
+    // قاعدة بيانات شاملة ومترجمة لكل فئة ونوع نبات
+    const database = {
+        citrus: {
+            names: { ar: "الحمضيات (ليمون، برتقال)", en: "Citrus (Lemon, Orange)" },
+            symptoms: [
+                {
+                    keywords: ["اصفرار", "شاحب", "yellow", "pale"],
+                    ar: { title: "نقص نيتروجين في الحمضيات", desc: "تحول الأوراق بالكامل للون الأصفر الشاحب وضغف النمو الخضري.", treat: "إضافة أسمدة نيتروجينية متوازنة وتنظيم الري." },
+                    en: { title: "Nitrogen Deficiency in Citrus", desc: "Leaves turn pale yellow entirely with stunted vegetative growth.", treat: "Apply balanced nitrogen fertilizers and regulate irrigation." }
+                },
+                {
+                    keywords: ["بقع بنية", "تبقع", "brown spots"],
+                    ar: { title: "مرض التبقع الفطري في الحمضيات", desc: "ظهور بقع دائرية بنية أو سوداء على الأوراق بسبب الرطوبة العالية.", treat: "رش الأشجار بمبيد فطري نحاسي وتجنب الري العلوي." },
+                    en: { title: "Fungal Leaf Spot in Citrus", desc: "Appearance of circular brown or black spots on leaves due to high humidity.", treat: "Spray trees with a copper fungicide and avoid overhead watering." }
+                }
+            ]
+        },
+        strawberry: {
+            names: { ar: "الفراولة (الشليك)", en: "Strawberry" },
+            symptoms: [
+                {
+                    keywords: ["عفن", "رمادي", "ثمار", "gray mold", "rot"],
+                    ar: { title: "العفن الرمادي (البوتريتيس) في الفراولة", desc: "ظهور طبقة وبغية رمادية على الثمار والأوراق تؤدي لتعفنها.", treat: "تقليل الرطوبة، إزالة الثمار المصابة فوراً، والرش بمبيد فطري متخصص قبل التزهير." },
+                    en: { title: "Gray Mold (Botrytis) on Strawberry", desc: "A fuzzy gray mold appears on fruits and leaves leading to rot.", treat: "Reduce humidity, remove infected fruits immediately, and spray with a specialized fungicide before flowering." }
+                },
+                {
+                    keywords: ["احمرار", "حواف", "red edges", "purplish"],
+                    ar: { title: "نقص الفوسفور أو إجهاد البرد في الفراولة", desc: "تحول حواف الأوراق القديمة إلى اللون الأرجواني أو الأحمر الداكن.", treat: "إضافة سماد فوسفاتي عالي الذوبان وتدفئة التربة بالملش البلاستيكي." },
+                    en: { title: "Phosphorus Deficiency or Cold Stress in Strawberry", desc: "Edges of older leaves turn purplish or dark red.", treat: "Apply highly soluble phosphorus fertilizer and use plastic mulch to warm the soil." }
+                }
+            ]
+        },
+        palm: {
+            names: { ar: "النخيل", en: "Palm Trees" },
+            symptoms: [
+                {
+                    keywords: ["سوسة", "سوسه", "ثقب", "weevil", "hole"],
+                    ar: { title: "اشتباه إصابة بسوسة النخيل الحمراء", desc: "وجود نخر أو ثقوب في الجذع مع خروج نشارة خشبية وإفرازات سائلة.", treat: "حقن الجذع فوراً بالمبيدات الجهازية المخصصة واستدعاء الطاقم الإرشادي." },
+                    en: { title: "Suspected Red Palm Weevil Infestation", desc: "Presence of holes or tunnels in the trunk with sawdust and fluid secretions.", treat: "Immediately inject the trunk with specialized systemic insecticides." }
+                }
+            ]
+        },
+        olive: {
+            names: { ar: "الزيتون", en: "Olive Trees" },
+            symptoms: [
+                {
+                    keywords: ["عين الطاووس", "عين الطائر", "peacock"],
+                    ar: { title: "مرض عين الطاووس في الزيتون", desc: "بقع دائرية رمادية محاطة بحلقة صفراء تشبه عين الطاووس على الأوراق.", treat: "تقليم الأغصان لتحسين التهوية، والرش بمبيد فطري نحاسي بعد الخريف." },
+                    en: { title: "Peacock Spot Disease in Olive", desc: "Dark circular spots surrounded by a yellow halo on olive leaves.", treat: "Prune dense branches to improve air circulation and spray with copper fungicide." }
+                }
+            ]
+        },
+        tomato: {
+            names: { ar: "الطماطم والخضروات", en: "Tomatoes & Vegetables" },
+            symptoms: [
+                {
+                    keywords: ["تجعيد", "ذبابة", "curl", "whitefly"],
+                    ar: { title: "فيروس تجعد واصفرار أوراق الطماطم", desc: "تغضن وتجعد الأوراق الحديثة وصغر حجمها، وينتقل عبر الذبابة البيضاء.", treat: "مكافحة حشرة الذبابة البيضاء بمرشات حشرية زهرية وإزالة النباتات المصابة بشدة لعدم نقل العدوى." },
+                    en: { title: "Tomato Yellow Leaf Curl Virus (TYLCV)", desc: "New leaves become cupped, distorted, and yellowed; transmitted by whiteflies.", treat: "Control whitefly populations with appropriate insecticides and destroy severely infected plants." }
+                }
+            ]
+        }
+    };
+
+    let currentSpeechText = "";
+
+    // دالة لتحديث قائمة الأشجار بناءً على اللغة المختارة
+    function updateTreeDropdown() {
+        const treeSelect = document.getElementById('treeSelect');
+        treeSelect.innerHTML = ""; // تفريغ القائمة أولاً لتحديثها
+
+        for (const key in database) {
+            const optionText = database[key].names[currentLang];
+            treeSelect.innerHTML += `<option value="${key}">${optionText}</option>`;
+        }
+        updateSymptomsDropdown();
+    }
+
+    // دالة لتحديث قائمة الأعراض بناءً على نوع الشجرة المختار
+    function updateSymptomsDropdown() {
+        const tree = document.getElementById('treeSelect').value;
+        const symptomSelect = document.getElementById('symptomSelect');
+        symptomSelect.innerHTML = `<option value="">${uiStrings[currentLang].selectOpt}</option>`;
+        
+        if(database[tree]) {
+            database[tree].symptoms.forEach((item, index) => {
+                const data = item[currentLang];
+                symptomSelect.innerHTML += `<option value="${index}">${data.title}</option>`;
+            });
+        }
+        document.getElementById('resultBox').style.display = 'none';
+    }
+
+    function analyzeByDropdown() {
+        const tree = document.getElementById('treeSelect').value;
+        const index = document.getElementById('symptomSelect').value;
+        if(index === "") return;
+
+        const item = database[tree].symptoms[index];
+        displayResult(item);
+    }
+
+    function analyzeByText() {
+        const text = document.getElementById('searchInput').value.trim().toLowerCase();
+        if(text.length < 2) return;
+
+        const tree = document.getElementById('treeSelect').value;
+        const matched = database[tree].symptoms.find(item => item.keywords.some(keyword => text.includes(keyword)));
+
+        if (matched) {
+            displayResult(matched);
+        } else {
+            alert(uiStrings[currentLang].notFound);
+        }
+    }
+
+    function displayResult(item) {
+        const data = item[currentLang];
+        document.getElementById('diagnosisTitle').innerText = data.title;
+        document.getElementById('diagnosisDesc').innerText = data.desc;
+        document.getElementById('treatmentDesc').innerText = data.treat;
+        document.getElementById('resultBox').style.display = 'block';
+
+        currentSpeechText = `${data.title}. ${data.desc} ${data.treat}`;
+        speakResult();
+    }
+
+    function startVoiceRecognition() {
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (!SpeechRecognition) {
+            alert(currentLang === 'ar' ? "متصفحك الحالي لا يدعم التعرف على الصوت مباشرة." : "Your browser doesn't support Voice Recognition.");
+            return;
+        }
+
+        const recognition = new SpeechRecognition();
+        recognition.lang = currentLang === 'ar' ? 'ar-SA' : 'en-US';
+        const micBtn = document.getElementById('micBtn');
+
+        recognition.onstart = () => { micBtn.classList.add('listening'); };
+        recognition.onend = () => { micBtn.classList.remove('listening'); };
+
+        recognition.onresult = (event) => {
+            const speechToText = event.results[0][0].transcript;
+            document.getElementById('searchInput').value = speechToText;
+            analyzeByText(); 
+        };
+
+        recognition.start();
+    }
+
+    function speakResult() {
+        if (!currentSpeechText) return;
+        window.speechSynthesis.cancel();
+
+        const utterance = new SpeechSynthesisUtterance(currentSpeechText);
+        utterance.lang = currentLang === 'ar' ? 'ar-SA' : 'en-US';
+        utterance.rate = 0.9;
+
+        const avatar = document.getElementById('avatarContainer');
+        utterance.onstart = () => avatar.classList.add('speaking');
+        utterance.onend = () => avatar.classList.remove('speaking');
+
+        window.speechSynthesis.speak(utterance);
+    }
+
+    function toggleLanguage() {
+        currentLang = currentLang === 'ar' ? 'en' : 'ar';
+        document.getElementById('langBtn').innerText = currentLang === 'ar' ? 'English' : 'العربية';
+        
+        if (currentLang === 'en') {
+            document.documentElement.lang = 'en';
+            document.documentElement.dir = 'ltr';
+            document.body.style.direction = 'ltr';
+            document.body.classList.add('ltr');
+        } else {
+            document.documentElement.lang = 'ar';
+            document.documentElement.dir = 'rtl';
+            document.body.style.direction = 'rtl';
+            document.body.classList.remove('ltr');
+        }
+
+        document.getElementById('mainTitle').innerText = uiStrings[currentLang].title;
+        document.getElementById('welcomeSpeech').innerText = uiStrings[currentLang].welcome;
+        document.getElementById('lblTree').innerText = uiStrings[currentLang].lblTree;
+        document.getElementById('lblSymptom').innerText = uiStrings[currentLang].lblSymptom;
+        document.getElementById('lblSearch').innerText = uiStrings[currentLang].lblSearch;
+        document.getElementById('searchInput').placeholder = uiStrings[currentLang].placeholder;
+        document.getElementById('lblTreatmentTitle').innerText = uiStrings[currentLang].treatmentTitle;
+        document.getElementById('btnListen').innerText = uiStrings[currentLang].btnListen;
+        document.getElementById('submitBtn').innerText = uiStrings[currentLang].submitBtn;
+
+        // تحديث القوائم المنسدلة لتعكس اللغة الجديدة فوراً
+        updateTreeDropdown();
+    }
+
+    // تشغيل التعبئة التلقائية عند أول فتح للملف لضمان عدم بقاء القوائم فارغة
+    window.onload = function() {
+        updateTreeDropdown();
+    };
+</script>
+
+</body>
+</html>
