@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>العيادة الزراعية الذكية - 3D Axis</title>
+    <title>العيادة الزراعية الذكية - 3D Axis Platform</title>
     <style>
         :root {
             --primary-color: #2e7d32;
@@ -11,6 +11,7 @@
             --bg-color: #f1f8e9;
             --text-color: #1b5e20;
             --card-bg: #ffffff;
+            --danger-color: #c62828;
         }
 
         body {
@@ -26,7 +27,7 @@
         }
 
         .container {
-            max-width: 650px;
+            max-width: 700px;
             width: 100%;
             background: var(--card-bg);
             padding: 25px;
@@ -47,16 +48,22 @@
             background-color: var(--primary-color);
             color: white;
             border: none;
-            padding: 6px 15px;
+            padding: 8px 18px;
             border-radius: 20px;
             cursor: pointer;
             font-weight: bold;
+            font-size: 14px;
+            transition: background 0.2s;
+        }
+
+        .lang-btn:hover {
+            background-color: #1b5e20;
         }
 
         h1 {
             color: var(--primary-color);
             margin: 10px 0 5px 0;
-            font-size: 24px;
+            font-size: 26px;
         }
 
         .avatar-container {
@@ -93,17 +100,23 @@
 
         .bubble {
             background: #e8f5e9;
-            padding: 12px 15px;
+            padding: 15px;
             border-radius: 10px;
             margin-bottom: 20px;
             font-weight: 500;
             border-right: 5px solid var(--primary-color);
             text-align: justify;
+            line-height: 1.6;
+        }
+
+        body.ltr .bubble {
+            border-right: none;
+            border-left: 5px solid var(--primary-color);
         }
 
         .form-group {
             text-align: right;
-            margin-bottom: 15px;
+            margin-bottom: 18px;
         }
 
         body.ltr .form-group {
@@ -114,6 +127,7 @@
             display: block;
             font-weight: bold;
             margin-bottom: 6px;
+            font-size: 15px;
         }
 
         select, input[type="text"] {
@@ -135,7 +149,7 @@
         }
 
         .mic-btn {
-            background-color: #c62828;
+            background-color: var(--danger-color);
             color: white;
             border: none;
             width: 50px;
@@ -172,11 +186,12 @@
         .result-box {
             margin-top: 20px;
             padding: 20px;
-            border-radius: 10px;
+            border-radius: 12px;
             background: #fff;
-            border: 1px solid #c8e6c9;
+            border: 2px solid #c8e6c9;
             display: none;
             text-align: right;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
 
         body.ltr .result-box {
@@ -185,27 +200,51 @@
 
         .result-title {
             font-weight: bold;
-            color: #c62828;
-            font-size: 17px;
-            margin-bottom: 8px;
+            color: var(--danger-color);
+            font-size: 19px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #ffcdd2;
+            padding-bottom: 5px;
         }
 
-        .treatment-title {
+        .section-title {
             font-weight: bold;
             color: var(--primary-color);
-            margin-top: 12px;
-            margin-bottom: 8px;
+            margin-top: 15px;
+            margin-bottom: 6px;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .treatment-card {
+            background-color: #f9fbe7;
+            border-left: 4px solid #afb42b;
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        body.ltr .treatment-card {
+            border-left: none;
+            border-right: 4px solid #afb42b;
         }
 
         .audio-btn {
             background-color: var(--primary-color);
             color: white;
             border: none;
-            padding: 10px 20px;
+            padding: 10px 22px;
             border-radius: 20px;
             cursor: pointer;
-            font-size: 14px;
-            margin-top: 15px;
+            font-size: 15px;
+            margin-top: 18px;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
         }
     </style>
 </head>
@@ -214,7 +253,7 @@
 <div class="container">
     <div class="header-tools">
         <button class="lang-btn" onclick="toggleLanguage()" id="langBtn">English</button>
-        <span style="font-size: 12px; font-weight: bold; color: #558b2f;">3D Axis Platform</span>
+        <span style="font-size: 13px; font-weight: bold; color: #558b2f;">3D Axis Platform</span>
     </div>
 
     <h1 id="mainTitle">الخبير الزراعي الافتراضي</h1>
@@ -224,41 +263,41 @@
     </div>
 
     <div class="bubble" id="welcomeSpeech">
-        مرحباً بك يا مزارعنا القدير. اختر نوع النبات أو المحصول، أو تحدث معي مباشرة لتشخيص الأعراض.
+        مرحباً بك يا مزارعنا القدير في العيادة الذكية لعالمنا الافتراضي. اختر نوع المحصول، أو اكتب/تحدث بالأعراض لنقوم بتشخيصها وإعطائك الحل الكيميائي والعضوي فوراً.
     </div>
 
-    <!-- اختيار نوع الشجرة/النبات (يتم تعبئتها ديناميكياً لتترجم تلقائياً) -->
     <div class="form-group">
         <label id="lblTree">1. اختر نوع الشجرة أو المحصول:</label>
         <select id="treeSelect" onchange="updateSymptomsDropdown()">
-            <!-- يتم التعبئة عبر السكريبت -->
-        </select>
+            </select>
     </div>
 
-    <!-- اختيار العَرَض -->
     <div class="form-group">
         <label id="lblSymptom">2. ماذا تلاحظ على الأوراق أو الثمار؟</label>
         <select id="symptomSelect" onchange="analyzeByDropdown()">
-            <!-- يتم التعبئة عبر السكريبت -->
-        </select>
+            </select>
     </div>
 
-    <!-- البحث الصوتي والكتابي -->
     <div class="form-group">
-        <label id="lblSearch">أو تحدث/اكتب العَرَض مباشرة للبحث الذكي:</label>
+        <label id="lblSearch">أو تفضل بوصف العَرَض مباشرة للبحث الذكي السريع:</label>
         <div class="search-row">
             <button class="mic-btn" id="micBtn" onclick="startVoiceRecognition()">🎙️</button>
-            <input type="text" id="searchInput" placeholder="مثال: بقع بنية، اصفرار الأوراق...">
-            <button class="submit-btn" id="submitBtn" onclick="analyzeByText()">فحص العَرَض 🔍</button>
+            <input type="text" id="searchInput" placeholder="مثال: بقع بنية، اصفرار الأوراق، تعفن...">
+            <button class="submit-btn" id="submitBtn" onclick="analyzeByText()">فحص 🔍</button>
         </div>
     </div>
 
-    <!-- صندوق النتائج -->
     <div class="result-box" id="resultBox">
         <div class="result-title" id="diagnosisTitle"></div>
-        <div id="diagnosisDesc"></div>
-        <div class="treatment-title" id="lblTreatmentTitle">💡 الحل والعلاج المقترح:</div>
-        <div id="treatmentDesc"></div>
+        
+        <div class="section-title">🔍 <span id="lblDesc">وصف الحالة وتفسيرها:</span></div>
+        <div id="diagnosisDesc" style="font-size: 14px; color: #33691e; text-align: justify;"></div>
+        
+        <div class="section-title">🧪 <span id="lblChem">العلاج الكيميائي والمبيدات الموصى بها:</span></div>
+        <div id="chemTreatment" class="treatment-card"></div>
+        
+        <div class="section-title">🌿 <span id="lblOrg">العلاج العضوي والوقاية الطبيعية:</span></div>
+        <div id="orgTreatment" class="treatment-card" style="border-left-color: #2e7d32;"></div>
         
         <button class="audio-btn" onclick="speakResult()" id="btnListen">🔊 استمع إلى التشخيص</button>
     </div>
@@ -266,50 +305,75 @@
 
 <script>
     let currentLang = 'ar';
-    
+    let currentSpeechText = "";
+
     const uiStrings = {
         ar: {
             title: "الخبير الزراعي الافتراضي",
-            welcome: "مرحباً بك يا مزارعنا القدير. اختر نوع النبات أو المحصول، أو تحدث معي مباشرة لتشخيص الأعراض.",
+            welcome: "مرحباً بك يا مزارعنا القدير في العيادة الذكية لعالمنا الافتراضي. اختر نوع المحصول، أو اكتب/تحدث بالأعراض لنقوم بتشخيصها وإعطائك الحل الكيميائي والعضوي فوراً.",
             lblTree: "1. اختر نوع الشجرة أو المحصول:",
             lblSymptom: "2. ماذا تلاحظ على الأوراق أو الثمار؟",
-            lblSearch: "أو تحدث/اكتب العَرَض مباشرة للبحث الذكي:",
-            placeholder: "مثال: بقع بنية، اصفرار الأوراق...",
-            treatmentTitle: "💡 الحل والعلاج المقترح:",
+            lblSearch: "أو تفضل بوصف العَرَض مباشرة للبحث الذكي السريع:",
+            placeholder: "مثال: بقع بنية، اصفرار الأوراق، تعفن...",
+            lblDesc: "وصف الحالة وتفسيرها:",
+            lblChem: "العلاج الكيميائي والمبيدات الموصى بها:",
+            lblOrg: "العلاج العضوي والوقاية الطبيعية:",
             btnListen: "🔊 استمع إلى التشخيص بصوت الأفتار",
-            selectOpt: "-- اختر العَرَض المشاهد --",
-            submitBtn: "فحص العَرَض 🔍",
-            notFound: "عذراً، لم أستطع العثور على تشخيص دقيق لهذا العَرَض في هذا المحصول. يرجى تجربة كلمات أخرى."
+            selectOpt: "-- اختر العَرَض المشاهد لتشخيصه --",
+            submitBtn: "فحص 🔍",
+            notFound: "عذراً، لم أستطع العثور على تشخيص دقيق لهذا العَرَض في هذا المحصول المحدد. يرجى تجربة كلمات بحث أخرى للوصول الدقيق."
         },
         en: {
             title: "Virtual Agricultural Expert",
-            welcome: "Welcome, dear farmer. Select the plant or crop type, or talk to me directly to diagnose the symptoms.",
+            welcome: "Welcome, dear farmer, to our smart virtual clinic. Select the crop type, or type/speak the symptoms for immediate chemical and organic diagnosis.",
             lblTree: "1. Select Tree or Crop Type:",
             lblSymptom: "2. What do you notice on the leaves or fruits?",
-            lblSearch: "Or speak/type the symptom directly for smart search:",
-            placeholder: "e.g., brown spots, yellow leaves...",
-            treatmentTitle: "💡 Suggested Solution & Treatment:",
+            lblSearch: "Or describe the symptom directly for smart search:",
+            placeholder: "e.g., brown spots, yellow leaves, rot...",
+            lblDesc: "Case Description & Analysis:",
+            lblChem: "Chemical Treatment & Recommended Pesticides:",
+            lblOrg: "Organic Treatment & Natural Prevention:",
             btnListen: "🔊 Listen to the diagnosis from Avatar",
             selectOpt: "-- Select Observed Symptom --",
-            submitBtn: "Check Symptom 🔍",
-            notFound: "Sorry, I couldn't find an exact diagnosis for this symptom in this crop. Please try other keywords."
+            submitBtn: "Check 🔍",
+            notFound: "Sorry, I couldn't find an exact diagnosis for this symptom in this specific crop. Please try other keywords."
         }
     };
 
-    // قاعدة بيانات شاملة ومترجمة لكل فئة ونوع نبات
+    // قاعدة بيانات عالمية موسعة وغنية جداً بالمعلومات الطبية الزراعية
     const database = {
-        citrus: {
-            names: { ar: "الحمضيات (ليمون، برتقال)", en: "Citrus (Lemon, Orange)" },
+        tomato: {
+            names: { ar: "الطماطم والخضروات", en: "Tomatoes & Vegetables" },
             symptoms: [
                 {
-                    keywords: ["اصفرار", "شاحب", "yellow", "pale"],
-                    ar: { title: "نقص نيتروجين في الحمضيات", desc: "تحول الأوراق بالكامل للون الأصفر الشاحب وضغف النمو الخضري.", treat: "إضافة أسمدة نيتروجينية متوازنة وتنظيم الري." },
-                    en: { title: "Nitrogen Deficiency in Citrus", desc: "Leaves turn pale yellow entirely with stunted vegetative growth.", treat: "Apply balanced nitrogen fertilizers and regulate irrigation." }
+                    keywords: ["تجعيد", "اصفرار", "ذبابة", "curl", "yellow", "whitefly"],
+                    ar: { 
+                        title: "فيروس تجعد واصفرار أوراق الطماطم (TYLCV)", 
+                        desc: "تغضن وتجعد الأوراق الحديثة لأعلى وصغر حجمها مع اصفرار الحواف، وينتقل المرض عبر حشرة الذبابة البيضاء.", 
+                        chem: "رش مبيد حشري جهازي يحتوي على مادة 'إيميداكلوبريد' أو 'أسيتاميبيرد' لمكافحة الذبابة الناقلة.", 
+                        org: "قلع النباتات المصابة بشدة وحرقها لمنع انتشار العدوى، واستخدام المصائد الصفراء اللاصقة لحجز الذباب، ورش زيت النيم الطبيعي طارد الحشرات." 
+                    },
+                    en: { 
+                        title: "Tomato Yellow Leaf Curl Virus (TYLCV)", 
+                        desc: "New leaves become cupped, distorted, and yellowed at the margins. Transmitted by whiteflies.", 
+                        chem: "Spray systemic insecticides containing 'Imidacloprid' or 'Acetamiprid' to control whitefly vectors.", 
+                        org: "Uproot and burn severely infected plants. Use yellow sticky traps and spray natural Neem oil as a repellent." 
+                    }
                 },
                 {
-                    keywords: ["بقع بنية", "تبقع", "brown spots"],
-                    ar: { title: "مرض التبقع الفطري في الحمضيات", desc: "ظهور بقع دائرية بنية أو سوداء على الأوراق بسبب الرطوبة العالية.", treat: "رش الأشجار بمبيد فطري نحاسي وتجنب الري العلوي." },
-                    en: { title: "Fungal Leaf Spot in Citrus", desc: "Appearance of circular brown or black spots on leaves due to high humidity.", treat: "Spray trees with a copper fungicide and avoid overhead watering." }
+                    keywords: ["عفن", "اسود", "سفلي", "rot", "black", "bottom"],
+                    ar: { 
+                        title: "مرض عفن طرف السرة (نقص الكالسيوم)", 
+                        desc: "ظهور بقعة جلدية سوداء أو بنية جافة أسفل ثمرة الطماطم ناتجة عن عدم انتظام الري ونقص عنصر الكالسيوم.", 
+                        chem: "رش الأوراق بسماد نترات الكالسيوم السائل بتركيز مناسب لتغذية الثمار مباشرة.", 
+                        org: "تنظيم فترات وعمليات الري تماماً (تجنب الجفاف الشديد يليه ري غزير) وتغطية التربة بالملش البلاستيكي للحفاظ على الرطوبة." 
+                    },
+                    en: { 
+                        title: "Blossom End Rot (Calcium Deficiency)", 
+                        desc: "A black or brown dry leathery spot at the bottom of the fruit, caused by irregular watering and lack of calcium.", 
+                        chem: "Foliar spray with liquid Calcium Nitrate fertilizer to nourish the fruits directly.", 
+                        org: "Strictly regulate irrigation schedules (avoid drought followed by heavy flooding) and use mulch to preserve soil moisture." 
+                    }
                 }
             ]
         },
@@ -317,55 +381,107 @@
             names: { ar: "الفراولة (الشليك)", en: "Strawberry" },
             symptoms: [
                 {
-                    keywords: ["عفن", "رمادي", "ثمار", "gray mold", "rot"],
-                    ar: { title: "العفن الرمادي (البوتريتيس) في الفراولة", desc: "ظهور طبقة وبغية رمادية على الثمار والأوراق تؤدي لتعفنها.", treat: "تقليل الرطوبة، إزالة الثمار المصابة فوراً، والرش بمبيد فطري متخصص قبل التزهير." },
-                    en: { title: "Gray Mold (Botrytis) on Strawberry", desc: "A fuzzy gray mold appears on fruits and leaves leading to rot.", treat: "Reduce humidity, remove infected fruits immediately, and spray with a specialized fungicide before flowering." }
-                },
+                    keywords: ["رمادي", "عفن", "ثمار", "gray", "mold", "rot"],
+                    ar: { 
+                        title: "مرض العفن الرمادي (البوتريتيس) في الفراولة", 
+                        desc: "ظهور طبقة قطنية رمادية اللون على الثمار والأزهار تؤدي إلى تعفنها السريع بسبب الرطوبة المرتفعة وضيق مسافات الزراعة.", 
+                        chem: "الرش الوقائي أو العلاجي بمبيد فطري متخصص مثل مادة 'فلوبرام' أو 'سيبودينيل'.", 
+                        org: "إزالة الثمار المصابة فوراً والتخلص منها بعيداً، وتخفيف الأوراق الزائدة لتحسين التهوية والري بالتنقيط تحت البلاستيك لخفض الرطوبة." 
+                    },
+                    en: { 
+                        title: "Gray Mold (Botrytis Cinerea)", 
+                        desc: "A fuzzy gray cotton-like mold appears on fruits and flowers, causing rapid rot under high humidity and poor aeration.", 
+                        chem: "Apply preventative or curative fungicides containing 'Fluopyram' or 'Cyprodinil'.", 
+                        org: "Remove infected fruits immediately. Thin out leaves to improve airflow and use drip irrigation under plastic mulch." 
+                    }
+                }
+            ]
+        },
+        mango: {
+            names: { ar: "المانجو (الملكة)", en: "Mango Trees" },
+            symptoms: [
                 {
-                    keywords: ["احمرار", "حواف", "red edges", "purplish"],
-                    ar: { title: "نقص الفوسفور أو إجهاد البرد في الفراولة", desc: "تحول حواف الأوراق القديمة إلى اللون الأرجواني أو الأحمر الداكن.", treat: "إضافة سماد فوسفاتي عالي الذوبان وتدفئة التربة بالملش البلاستيكي." },
-                    en: { title: "Phosphorus Deficiency or Cold Stress in Strawberry", desc: "Edges of older leaves turn purplish or dark red.", treat: "Apply highly soluble phosphorus fertilizer and use plastic mulch to warm the soil." }
+                    keywords: ["تكتل", "براعم", "خبيث", "malformation", "cluster"],
+                    ar: { 
+                        title: "مرض تكتل براعم وأزهار المانجو (التشوّه)", 
+                        desc: "تحول البراعم الزهرية أو الخضرية إلى تجمعات متراصة تشبه رأس القرنبيط، مما يمنع عقد الثمار نتيجة إصابة فطرية وحشرية مشتركة.", 
+                        chem: "رش الأشجار بعد التقليم بمبيد فطري نحاسي قوي مخلوطاً بمبيد لمكافحة الأكاروسات (الحلم).", 
+                        org: "قص الأجزاء المتكتلة والمشوهة ميكانيكياً بمسافة 20 سم لأسفل من النسيج السليم، ثم دهان مكان القص بعجينة بورودو لحماية الغصن." 
+                    },
+                    en: { 
+                        title: "Mango Floral & Vegetative Malformation", 
+                        desc: "Inflorescences turn into dense clusters resembling cauliflower, preventing fruit set. Caused by fungal and mite complex.", 
+                        chem: "Spray trees post-pruning with a copper-based fungicide mixed with an effective miticide.", 
+                        org: "Prune malformed parts 20 cm below the affected tissue and paint the cuts with Bordeaux paste for protection." 
+                    }
+                }
+            ]
+        },
+        banana: {
+            names: { ar: "الموز", en: "Banana Plants" },
+            symptoms: [
+                {
+                    keywords: ["ذبول", "اصفرار", "باناما", "wilt", "panama"],
+                    ar: { 
+                        title: "مرض ذبول الموز الفطري (مرض باناما)", 
+                        desc: "اصفرار يبدأ من حواف الأوراق القديمة ويمتد للداخل مع ذبول وسقوط الأوراق حول الساق الكاذبة، وهو فطر خطير يعيش في التربة.", 
+                        chem: "لا يوجد علاج كيميائي فعال للفطر بداخل التربة بعد الإصابة الشديدة، ويجب عزل المنطقة المصابة تجارياً.", 
+                        org: "استخدام شتلات نسيجية سليمة ومعقمة تماماً، وتعديل حموضة التربة بإضافة الجير، وزراعة أصناف مقاومة للمرض وتطهير الأدوات." 
+                    },
+                    en: { 
+                        title: "Panama Disease (Fusarium Wilt)", 
+                        desc: "Yellowing starts from outer leaf margins moving inward, followed by collapsing of leaves. A lethal soil-borne fungus.", 
+                        chem: "No effective chemical cure inside the soil post-infection. Infected quarantine area must be isolated.", 
+                        org: "Always use certified disease-free tissue culture plantlets, adjust soil pH using lime, and grow resistant cultivars." 
+                    }
                 }
             ]
         },
         palm: {
-            names: { ar: "النخيل", en: "Palm Trees" },
+            names: { ar: "النخيل (التمر)", en: "Date Palms" },
             symptoms: [
                 {
-                    keywords: ["سوسة", "سوسه", "ثقب", "weevil", "hole"],
-                    ar: { title: "اشتباه إصابة بسوسة النخيل الحمراء", desc: "وجود نخر أو ثقوب في الجذع مع خروج نشارة خشبية وإفرازات سائلة.", treat: "حقن الجذع فوراً بالمبيدات الجهازية المخصصة واستدعاء الطاقم الإرشادي." },
-                    en: { title: "Suspected Red Palm Weevil Infestation", desc: "Presence of holes or tunnels in the trunk with sawdust and fluid secretions.", treat: "Immediately inject the trunk with specialized systemic insecticides." }
+                    keywords: ["سوسة", "ثقب", "نشارة", "weevil", "trunk"],
+                    ar: { 
+                        title: "إصابة بسوسة النخيل الحمراء (عدو النخيل الخفي)", 
+                        desc: "خروج إفرازات صمغية بنية سائلة ممزوجة بنشارة الخشب من الجذع مع سماع صوت قضم اليرقات بالداخل في المراحل المتقدمة.", 
+                        chem: "حقن جذع النخلة فوراً بالمبيدات الجهازية القوية مثل 'إيميداكلوبريد' عبر ثقوب مائلة، أو عمل تبخير لأقراص الفوسفين.", 
+                        org: "تغطية الجروح الناتجة عن فصل الفسائل فوراً بالطين أو القطران لمنع دخول السوسة البالغة، واستخدام المصائد الفيرومونية بانتظام للرصد." 
+                    },
+                    en: { 
+                        title: "Red Palm Weevil Infestation", 
+                        desc: "Oozing of brown gummy fluid mixed with chewed wood fibers from the trunk. Internal damage is caused by tunneling larvae.", 
+                        chem: "Immediately inject the trunk with potent systemic insecticides like 'Imidacloprid' into angled holes.", 
+                        org: "Seal all pruning wounds and pupal sites with mud or tar immediately to prevent egg-laying. Deploy pheromone traps for mass-monitoring." 
+                    }
                 }
             ]
         },
-        olive: {
-            names: { ar: "الزيتون", en: "Olive Trees" },
+        potato: {
+            names: { ar: "البطاطس (البطاطا)", en: "Potato Crops" },
             symptoms: [
                 {
-                    keywords: ["عين الطاووس", "عين الطائر", "peacock"],
-                    ar: { title: "مرض عين الطاووس في الزيتون", desc: "بقع دائرية رمادية محاطة بحلقة صفراء تشبه عين الطاووس على الأوراق.", treat: "تقليم الأغصان لتحسين التهوية، والرش بمبيد فطري نحاسي بعد الخريف." },
-                    en: { title: "Peacock Spot Disease in Olive", desc: "Dark circular spots surrounded by a yellow halo on olive leaves.", treat: "Prune dense branches to improve air circulation and spray with copper fungicide." }
-                }
-            ]
-        },
-        tomato: {
-            names: { ar: "الطماطم والخضروات", en: "Tomatoes & Vegetables" },
-            symptoms: [
-                {
-                    keywords: ["تجعيد", "ذبابة", "curl", "whitefly"],
-                    ar: { title: "فيروس تجعد واصفرار أوراق الطماطم", desc: "تغضن وتجعد الأوراق الحديثة وصغر حجمها، وينتقل عبر الذبابة البيضاء.", treat: "مكافحة حشرة الذبابة البيضاء بمرشات حشرية زهرية وإزالة النباتات المصابة بشدة لعدم نقل العدوى." },
-                    en: { title: "Tomato Yellow Leaf Curl Virus (TYLCV)", desc: "New leaves become cupped, distorted, and yellowed; transmitted by whiteflies.", treat: "Control whitefly populations with appropriate insecticides and destroy severely infected plants." }
+                    keywords: ["ندوة", "متأخرة", "بقع", "blight", "late"],
+                    ar: { 
+                        title: "مرض الندوة المتأخرة (اللفحة المتأخرة)", 
+                        desc: "ظهور بقع مائية كبيرة بنية داكنة على الأوراق والسيقان يتكون أسفلها مسحوق أبيض ناعم في الأجواء الباردة الرطبة، وتدمر المحصول بسرعة.", 
+                        chem: "الرش الوقائي والعلاجي السريع بمبيدات فطرية تحتوي على مادة 'ميتالاكسيل' أو 'مانكوزيب'.", 
+                        org: "استخدام تقاوي بطاطس معتمدة وخالية من المرض، وحرق بقايا المحصول المصاب، وتجنب الري بالرش في الأوقات الغائمة." 
+                    },
+                    en: { 
+                        title: "Late Blight of Potato", 
+                        desc: "Large dark brown water-soaked spots on leaves and stems, with white fungal growth underneath in cool, humid weather.", 
+                        chem: "Apply instant preventative or systemic fungicides containing 'Metalaxyl' or 'Mancozeb'.", 
+                        org: "Plant certified disease-free seed tubers, completely destroy infected crop debris, and avoid overhead sprinkler irrigation." 
+                    }
                 }
             ]
         }
     };
 
-    let currentSpeechText = "";
-
-    // دالة لتحديث قائمة الأشجار بناءً على اللغة المختارة
     function updateTreeDropdown() {
         const treeSelect = document.getElementById('treeSelect');
-        treeSelect.innerHTML = ""; // تفريغ القائمة أولاً لتحديثها
+        treeSelect.innerHTML = ""; 
 
         for (const key in database) {
             const optionText = database[key].names[currentLang];
@@ -374,7 +490,6 @@
         updateSymptomsDropdown();
     }
 
-    // دالة لتحديث قائمة الأعراض بناءً على نوع الشجرة المختار
     function updateSymptomsDropdown() {
         const tree = document.getElementById('treeSelect').value;
         const symptomSelect = document.getElementById('symptomSelect');
@@ -416,17 +531,23 @@
         const data = item[currentLang];
         document.getElementById('diagnosisTitle').innerText = data.title;
         document.getElementById('diagnosisDesc').innerText = data.desc;
-        document.getElementById('treatmentDesc').innerText = data.treat;
+        document.getElementById('chemTreatment').innerText = data.chem;
+        document.getElementById('orgTreatment').innerText = data.org;
         document.getElementById('resultBox').style.display = 'block';
 
-        currentSpeechText = `${data.title}. ${data.desc} ${data.treat}`;
+        // دمج النصوص البرمجية ليقرأها الآفاتار بطلاقة واحترافية
+        if(currentLang === 'ar') {
+            currentSpeechText = `التشخيص هو: ${data.title}. الوصف: ${data.desc}. العلاج الكيميائي المقترح: ${data.chem}. العلاج العضوي: ${data.org}`;
+        } else {
+            currentSpeechText = `Diagnosis is: ${data.title}. Description: ${data.desc}. Chemical treatment: ${data.chem}. Organic treatment: ${data.org}`;
+        }
         speakResult();
     }
 
     function startVoiceRecognition() {
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         if (!SpeechRecognition) {
-            alert(currentLang === 'ar' ? "متصفحك الحالي لا يدعم التعرف على الصوت مباشرة." : "Your browser doesn't support Voice Recognition.");
+            alert(currentLang === 'ar' ? "متصفحك لا يدعم التعرف الصوتي المباشر." : "Your browser doesn't support Voice Recognition.");
             return;
         }
 
@@ -452,7 +573,7 @@
 
         const utterance = new SpeechSynthesisUtterance(currentSpeechText);
         utterance.lang = currentLang === 'ar' ? 'ar-SA' : 'en-US';
-        utterance.rate = 0.9;
+        utterance.rate = 0.95;
 
         const avatar = document.getElementById('avatarContainer');
         utterance.onstart = () => avatar.classList.add('speaking');
@@ -468,12 +589,10 @@
         if (currentLang === 'en') {
             document.documentElement.lang = 'en';
             document.documentElement.dir = 'ltr';
-            document.body.style.direction = 'ltr';
             document.body.classList.add('ltr');
         } else {
             document.documentElement.lang = 'ar';
             document.documentElement.dir = 'rtl';
-            document.body.style.direction = 'rtl';
             document.body.classList.remove('ltr');
         }
 
@@ -483,15 +602,15 @@
         document.getElementById('lblSymptom').innerText = uiStrings[currentLang].lblSymptom;
         document.getElementById('lblSearch').innerText = uiStrings[currentLang].lblSearch;
         document.getElementById('searchInput').placeholder = uiStrings[currentLang].placeholder;
-        document.getElementById('lblTreatmentTitle').innerText = uiStrings[currentLang].treatmentTitle;
+        document.getElementById('lblDesc').innerText = uiStrings[currentLang].lblDesc;
+        document.getElementById('lblChem').innerText = uiStrings[currentLang].lblChem;
+        document.getElementById('lblOrg').innerText = uiStrings[currentLang].lblOrg;
         document.getElementById('btnListen').innerText = uiStrings[currentLang].btnListen;
         document.getElementById('submitBtn').innerText = uiStrings[currentLang].submitBtn;
 
-        // تحديث القوائم المنسدلة لتعكس اللغة الجديدة فوراً
         updateTreeDropdown();
     }
 
-    // تشغيل التعبئة التلقائية عند أول فتح للملف لضمان عدم بقاء القوائم فارغة
     window.onload = function() {
         updateTreeDropdown();
     };
